@@ -1,23 +1,17 @@
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Scanner;
-
 import javax.swing.JFileChooser;
-import javax.swing.plaf.FileChooserUI;
 
 public class Ejercicio3 {
+    private static final Scanner sc = new Scanner(System.in);
+
     private static int opcionMenu() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("1. Crear un directorio");
         System.out.println("2. Listar todos los archivos y subdirectorios de un directorio");
         System.out.println("3. Eliminar un archivo o directorio");
         System.out.println("4. Mover o renombrar archivos y directorios");
         System.out.print("Escoge una opción: ");
-        int opcion = sc.nextInt();
-        return opcion;
+        return sc.nextInt();
     }
 
     public static void main(String[] args) {
@@ -27,67 +21,16 @@ public class Ejercicio3 {
         while (opcion >= 1 && opcion <= 4) {
             switch (opcion) {
                 case 1:
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-                    int valRet = chooser.showOpenDialog(chooser);
-                    if (valRet == JFileChooser.APPROVE_OPTION) {
-                        File dir = chooser.getSelectedFile();
-                        try {
-                            dir.createNewFile();
-                        } catch (IOException e) {
-                            System.out.println("No se pudo crear el fichero: " + e.getMessage());
-                        }
-                    }
+                    crearDirectorio();
                     break;
                 case 2:
-                    JFileChooser chooser2 = new JFileChooser();
-                    chooser2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-                    int valRet2 = chooser2.showOpenDialog(chooser2);
-                    if (valRet2 == JFileChooser.APPROVE_OPTION) {
-                        File dir = chooser2.getSelectedFile();
-
-                        System.out.println("Listado del directorio: " + dir.getAbsolutePath());
-
-                        for (File f : dir.listFiles()) {
-                            System.out.println(f.getName());
-                        }
-                    }
+                    listarRecursivo();
                     break;
                 case 3:
-                    JFileChooser chooser3 = new JFileChooser();
-                    
-                    int valRet3 = chooser3.showOpenDialog(chooser3);
-                    if (valRet3 == JFileChooser.APPROVE_OPTION) {
-                        File dir = chooser3.getSelectedFile();
-
-                        if (dir.isDirectory()) {
-                            dir.delete();
-                        }
-
-                        dir.delete();
-                    }
-
+                    eliminar();
                     break;
                 case 4:
-                    JFileChooser rutaEntrada = new JFileChooser();
-
-                    int valRet4 = rutaEntrada.showOpenDialog(rutaEntrada);
-                    if (valRet4 == JFileChooser.APPROVE_OPTION) {
-                        File dir = rutaEntrada.getSelectedFile();
-                        if (dir.isDirectory()) {
-                            
-                        }
-                        dir.renameTo(dir);
-                    }
-
-                    JFileChooser rutaSalida = new JFileChooser();
-                    int valRet5 = rutaSalida.showOpenDialog(rutaSalida);
-                    if (valRet5 == JFileChooser.APPROVE_OPTION) {
-                        
-                    }
-                    break;
+                    moverORenombrar();
                 default:
                     System.out.println("Opción no válida");
                     break;
@@ -95,5 +38,112 @@ public class Ejercicio3 {
             opcion = opcionMenu();
         }
 
+    }
+
+    private static void crearDirectorio() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setDialogTitle("Selecciona dónde crear el nuevo directorio");
+
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File padre = chooser.getSelectedFile();
+
+            sc.nextLine();
+            System.out.print("Nombre del nuevo directorio: ");
+            String nombre = sc.nextLine();
+
+            File nuevo = new File(padre, nombre);
+            if (nuevo.mkdir()) {
+                System.out.println("Directorio creado: " + nuevo.getAbsolutePath());
+            } else {
+                System.out.println("No se pudo crear el directorio");
+            }
+        }
+    }
+
+    private static void listarRecursivo() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File dir = chooser.getSelectedFile();
+            System.out.println("Listado del directorio: " + dir.getAbsolutePath());
+            listar(dir, "");
+        }
+    }
+
+    private static void listar(File dir, String indent) {
+        File[] contenido = dir.listFiles();
+        if (contenido == null) {
+            return;
+        }
+
+        for (File f : contenido) {
+            System.out.println(indent + (f.isDirectory() ? "[DIR] " : "") + f.getName());
+            if (f.isDirectory()) {
+                listar(f, indent + " ");
+            }
+        }
+    }
+
+    private static void eliminar() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File seleccionado = chooser.getSelectedFile();
+            borrarRecursivo(seleccionado);
+        }
+    }
+
+    private static void borrarRecursivo(File f) {
+        if (f.isDirectory()) {
+            File[] contenido = f.listFiles();
+            if (contenido != null) {
+                for (File hijo : contenido) {
+                    borrarRecursivo(hijo);
+                }
+            }
+        }
+        if (f.delete()) {
+            System.out.println("Borrado: " + f.getAbsolutePath());
+        } else {
+            System.out.println("No se pudo borrar " + f.getAbsolutePath());
+        }
+    }
+
+    private static void moverORenombrar() {
+        JFileChooser origenChooser = new JFileChooser();
+        origenChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        origenChooser.setDialogTitle("Selecciona el archivo/directorio de origen");
+
+        if (origenChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        File origen = origenChooser.getSelectedFile();
+
+        JFileChooser destinoChooser = new JFileChooser();
+        destinoChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        destinoChooser.setDialogTitle("Selecciona la carpeta de destino");
+
+        if (destinoChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        File carpetaDestino = destinoChooser.getSelectedFile();
+
+        sc.nextLine();
+        System.out.print("Nuevo nombre (vacio para mantener el mismo): ");
+        String nuevoNombre = sc.nextLine();
+        if (nuevoNombre.isBlank()) {
+            nuevoNombre = origen.getName();
+        }
+
+        File destino = new File(carpetaDestino, nuevoNombre);
+
+        if (origen.renameTo(destino)) {
+            System.out.println("Movido o renombrado a " + destino.getAbsolutePath());
+        } else {
+            System.out.println("Fallo al mover o renombrar");
+        }
     }
 }
