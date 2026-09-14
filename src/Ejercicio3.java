@@ -24,13 +24,13 @@ public class Ejercicio3 {
                     crearDirectorio();
                     break;
                 case 2:
-                    listarRecursivo();
+                    listarDirectorioRecursivo();
                     break;
                 case 3:
-                    eliminar();
+                    eliminarArchivoODirectorio();
                     break;
                 case 4:
-                    moverORenombrar();
+                    moverArchivoODirectorio();
                 default:
                     System.out.println("Opción no válida");
                     break;
@@ -61,7 +61,7 @@ public class Ejercicio3 {
         }
     }
 
-    private static void listarRecursivo() {
+    private static void listarDirectorioRecursivo() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -86,7 +86,7 @@ public class Ejercicio3 {
         }
     }
 
-    private static void eliminar() {
+    private static void eliminarArchivoODirectorio() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
@@ -112,7 +112,7 @@ public class Ejercicio3 {
         }
     }
 
-    private static void moverORenombrar() {
+    private static void moverArchivoODirectorio() {
         JFileChooser origenChooser = new JFileChooser();
         origenChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         origenChooser.setDialogTitle("Selecciona el archivo/directorio de origen");
