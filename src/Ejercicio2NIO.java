@@ -18,10 +18,7 @@ public class Ejercicio2NIO {
             try (Stream<Path> stream = Files.list(path)){
                 stream.forEach(System.out::println);
 
-                Iterator<Path> it = stream.iterator();
-                while (it.hasNext()) {
-                    System.out.println(it.next());
-                }
+                
             } catch (IOException e) {
             }
             
