@@ -55,7 +55,7 @@ public class Ejercicio3NIO {
 
             File nuevo = new File(padre, nombre);
             if (nuevo.mkdir()) {
-                System.out.println("Directorio creado: " + nuevo.getAbsolutePath());
+                System.out.println("Directorio creado:  " + nuevo.getAbsolutePath());
             } else {
                 System.out.println("No se pudo crear el directorio");
             }
