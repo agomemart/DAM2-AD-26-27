@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,6 +6,19 @@ import java.util.stream.Stream;
 import javax.swing.JFileChooser;
 
 public class Ejercicio2NIO {
+    static long totalSize = 0;
+
+    public static void imprime(Path p) {
+        System.out.println("Nombre: " + p.getFileName());
+        try {
+            long size = Files.size(p);
+            totalSize += size;
+            System.out.print(" (" + Files.size(p) + ")");
+            System.out.println(Files.isDirectory(p) ? "Directirio" : "");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -15,24 +27,12 @@ public class Ejercicio2NIO {
             Path path = chooser.getSelectedFile().toPath();
             
             try (Stream<Path> stream = Files.list(path)){
-                stream.forEach(System.out::println);
+                stream.forEach(Ejercicio2NIO::imprime);
 
-                
+                System.out.println("Tamaño total: " + totalSize + " bytes");
             } catch (IOException e) {
+                e.printStackTrace();
             }
-            
-
-            System.out.println("Listado del directorio: " + path.toFile().getAbsolutePath());
-
-            int totalLength = 0;
-
-            for (File f : path.toFile().listFiles()) {
-                System.out.println(f.getName() + " " + f.length() + " Directorio: " + f.isDirectory());
-                if (f.isFile()) {
-                    totalLength += f.length();
-                }
-            }
-            System.out.println("Tamaño total: " + totalLength);
         }
     }
 }
