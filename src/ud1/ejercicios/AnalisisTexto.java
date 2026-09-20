@@ -1,6 +1,8 @@
+package ud1.ejercicios;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
@@ -52,8 +54,8 @@ public class AnalisisTexto {
             System.out.println("Número de consonantes: " + numConsonantes);
             System.out.println("Número de dígitos: " + numDigitos);
             System.out.println("Número de espacios: " + numEspacios);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

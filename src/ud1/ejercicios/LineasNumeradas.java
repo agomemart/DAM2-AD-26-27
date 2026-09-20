@@ -1,8 +1,10 @@
+package ud1.ejercicios;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -25,10 +27,11 @@ public class LineasNumeradas {
             int cont = 0;
             for (String linea : lineas) {
                 cont++;
-                out.write(cont + ": " + linea + "\n");
+                out.write(cont + ": " + linea);
+                out.newLine();
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

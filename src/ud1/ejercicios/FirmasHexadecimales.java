@@ -1,3 +1,4 @@
+package ud1.ejercicios;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -69,11 +70,11 @@ public class FirmasHexadecimales {
         String firma = "";
 
         try {
-            FileInputStream entrada = new FileInputStream(archivo);
+            FileInputStream in = new FileInputStream(archivo);
 
             for (int i = 0; i < numeroBytes; i++) {
 
-                int valor = entrada.read();
+                int valor = in.read();
                 String hexadecimal = Integer.toHexString(valor).toUpperCase();
 
                 // Si el byte es pequeño (por ejemplo 5), toHexString da "5" en vez de "05"
@@ -84,7 +85,7 @@ public class FirmasHexadecimales {
                 firma = firma + hexadecimal;
             }
 
-            entrada.close();
+            in.close();
 
         } catch (IOException e) {
             System.out.println("Error al leer el archivo");
