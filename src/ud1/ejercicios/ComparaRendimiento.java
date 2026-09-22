@@ -45,7 +45,7 @@ public class ComparaRendimiento {
 
         FileOutputStream out = new FileOutputStream("directo.dat");
         for (int i = 0; i < numeroBytes; i++) {
-            out.write(65); // el valor del byte no importa para medir el tiempo, escribimos siempre el mismo
+            out.write(65);
         }
         out.close();
 
