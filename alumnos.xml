@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<alumnos>
+    <alumno id="1">
+        <nombre>Adrián López Fernández</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="15/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="2">
+        <nombre>Adrián López Fernández</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="17/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="3">
+        <nombre>Adrián López Fernández</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="22/09/2026" sesion="1" tipo="Retraso">
+            <falta>
+                <materia>Desenvolvemento de interfaces</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="4">
+        <nombre>Beatriz González Castro</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="14/09/2026" sesion="3" tipo="Inxustificada">
+            <falta>
+                <materia>Sistemas de xestión empresarial</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="5">
+        <nombre>Beatriz González Castro</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="18/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Programación multimedia e dispositivos móbiles</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="6">
+        <nombre>Beatriz González Castro</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="24/09/2026" sesion="1" tipo="Retraso">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="7">
+        <nombre>Carlos Martínez Pérez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="10/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="8">
+        <nombre>Carlos Martínez Pérez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="16/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Desenvolvemento de interfaces</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="9">
+        <nombre>Carlos Martínez Pérez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="23/09/2026" sesion="3" tipo="Inxustificada">
+            <falta>
+                <materia>Programación multimedia e dispositivos móbiles</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="10">
+        <nombre>Daniela Rodríguez Silva</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="11/09/2026" sesion="2" tipo="Retraso">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="11">
+        <nombre>Daniela Rodríguez Silva</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="15/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="12">
+        <nombre>Daniela Rodríguez Silva</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="25/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Sistemas de xestión empresarial</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="13">
+        <nombre>Elena Fernández Vázquez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="09/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Desenvolvemento de interfaces</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="14">
+        <nombre>Elena Fernández Vázquez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="19/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Programación multimedia e dispositivos móbiles</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="15">
+        <nombre>Elena Fernández Vázquez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="23/09/2026" sesion="3" tipo="Retraso">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="16">
+        <nombre>Fernando Castro López</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="12/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="17">
+        <nombre>Fernando Castro López</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="18/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="18">
+        <nombre>Fernando Castro López</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="24/09/2026" sesion="3" tipo="Inxustificada">
+            <falta>
+                <materia>Desenvolvemento de interfaces</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="19">
+        <nombre>Lucía Santos Pérez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="08/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Sistemas de xestión empresarial</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="20">
+        <nombre>Lucía Santos Pérez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="16/09/2026" sesion="2" tipo="Retraso">
+            <falta>
+                <materia>Programación multimedia e dispositivos móbiles</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="21">
+        <nombre>Lucía Santos Pérez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="22/09/2026" sesion="3" tipo="Inxustificada">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="22">
+        <nombre>Manuel Iglesias Gómez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="14/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="23">
+        <nombre>Manuel Iglesias Gómez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="20/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="24">
+        <nombre>Manuel Iglesias Gómez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="25/09/2026" sesion="2" tipo="Retraso">
+            <falta>
+                <materia>Desenvolvemento de interfaces</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="25">
+        <nombre>Noa Varela Rodríguez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="10/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Programación multimedia e dispositivos móbiles</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="26">
+        <nombre>Noa Varela Rodríguez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="17/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Sistemas de xestión empresarial</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="27">
+        <nombre>Noa Varela Rodríguez</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="23/09/2026" sesion="3" tipo="Inxustificada">
+            <falta>
+                <materia>Acceso a datos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="28">
+        <nombre>Pablo Méndez Castro</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="11/09/2026" sesion="1" tipo="Retraso">
+            <falta>
+                <materia>Desenvolvemento de interfaces</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="29">
+        <nombre>Pablo Méndez Castro</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="18/09/2026" sesion="2" tipo="Inxustificada">
+            <falta>
+                <materia>Programación de servizos e procesos</materia>
+                <justificada>No</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+    <alumno id="30">
+        <nombre>Pablo Méndez Castro</nombre>
+        <curso>2DAM</curso>
+        <faltas fecha="24/09/2026" sesion="1" tipo="Inxustificada">
+            <falta>
+                <materia>Programación multimedia e dispositivos móbiles</materia>
+                <justificada>Si</justificada>
+            </falta>
+        </faltas>
+    </alumno>
+</alumnos>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Faltas non xustificadas - 2 DAM</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #999; padding: 6px 12px; text-align: left; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+
+    <h1>Faltas non xustificadas - ciclo 2 DAM</h1>
+
+    <p>Selecciona o ficheiro CSV de faltas:</p>
+    <input type="file" id="inputArchivo" accept=".csv">
+
+    <table id="tablaResultados" style="display: none;">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Módulo</th>
+                <th>Faltas non xustificadas</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla"></tbody>
+    </table>
+
+    <p id="mensaje"></p>
+
+    <script>
+
+        // Nos ponemos a escuchar cuando el usuario selecciona un archivo
+        document.getElementById("inputArchivo").addEventListener("change", function (evento) {
+
+            var archivo = evento.target.files[0];
+
+            if (!archivo) {
+                return;
+            }
+
+            var lector = new FileReader();
+
+            // Esta función se ejecuta cuando el navegador ha terminado de leer el archivo
+            lector.onload = function (eventoLectura) {
+                var contenido = eventoLectura.target.result;
+                procesarCSV(contenido);
+            };
+
+            lector.readAsText(archivo);
+        });
+
+        function procesarCSV(contenido) {
+
+            var lineas = contenido.split("\n");
+
+            // Un objeto normal de JavaScript nos sirve como "diccionario":
+            // la clave será "alumno|modulo" y el valor, el número de faltas
+            var contador = {};
+
+            // Empezamos en 1 para saltarnos la línea de cabecera
+            for (var i = 1; i < lineas.length; i++) {
+
+                var linea = lineas[i].trim();
+
+                if (linea === "") {
+                    continue; // saltamos líneas en blanco (por ejemplo, la última del archivo)
+                }
+
+                var partes = linea.split(",");
+
+                var nombre = partes[1];
+                var curso = partes[2];
+                var materia = partes[5];
+                var xustificada = partes[7];
+
+                // Normalizamos el curso quitando espacios y pasando a mayúsculas,
+                // para no depender de si está escrito "2 DAM", "2DAM" o "2 dam"
+                var cursoNormalizado = curso.replace(/\s/g, "").toUpperCase();
+
+                if (cursoNormalizado !== "2DAM") {
+                    continue; // esta fila no es del ciclo que nos interesa
+                }
+
+                if (xustificada.trim() !== "Non") {
+                    continue; // solo nos interesan las faltas NO justificadas
+                }
+
+                var clave = nombre + "|" + materia;
+
+                if (contador[clave] === undefined) {
+                    contador[clave] = 0;
+                }
+
+                contador[clave] = contador[clave] + 1;
+            }
+
+            mostrarResultados(contador);
+        }
+
+        function mostrarResultados(contador) {
+
+            var cuerpoTabla = document.getElementById("cuerpoTabla");
+            cuerpoTabla.innerHTML = ""; // limpiamos resultados de una ejecución anterior
+
+            var claves = Object.keys(contador);
+
+            if (claves.length === 0) {
+                document.getElementById("mensaje").textContent =
+                    "No se han encontrado faltas non xustificadas do ciclo 2 DAM.";
+                document.getElementById("tablaResultados").style.display = "none";
+                return;
+            }
+
+            for (var i = 0; i < claves.length; i++) {
+
+                var clave = claves[i];
+                var partesClave = clave.split("|");
+                var alumno = partesClave[0];
+                var modulo = partesClave[1];
+                var numeroFaltas = contador[clave];
+
+                var fila = document.createElement("tr");
+
+                var celdaAlumno = document.createElement("td");
+                celdaAlumno.textContent = alumno;
+                fila.appendChild(celdaAlumno);
+
+                var celdaModulo = document.createElement("td");
+                celdaModulo.textContent = modulo;
+                fila.appendChild(celdaModulo);
+
+                var celdaFaltas = document.createElement("td");
+                celdaFaltas.textContent = numeroFaltas;
+                fila.appendChild(celdaFaltas);
+
+                cuerpoTabla.appendChild(fila);
+            }
+
+            document.getElementById("mensaje").textContent = "";
+            document.getElementById("tablaResultados").style.display = "table";
+        }
+
+    </script>
+
+</body>
+</html>

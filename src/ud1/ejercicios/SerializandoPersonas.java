@@ -35,6 +35,7 @@ public class SerializandoPersonas {
                     break;
                 case 4:
                     System.out.println("Saliendo del programa");
+                    continuar = false;
                     break;
                 default:
                     System.out.println("Opción no válida");
@@ -65,7 +66,8 @@ public class SerializandoPersonas {
         List<Persona> personas = leerTodasLasPersonas();
         personas.add(p);
 
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("personas.dat", true))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("personas.dat"))) {
+            out.writeInt(personas.size());
             for (Persona persona : personas) {
                 out.writeObject(persona);
             }
