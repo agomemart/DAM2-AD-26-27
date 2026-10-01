@@ -18,20 +18,20 @@ public class TamanoCarpeta {
 
        System.out.println("Tamaño total: " + tamanoTotal);
 
-       Path p = Path.of("d:\\");
-       /*try (var paths = Files.walk(p)) {
-            long tamaño = Files.walk(p)
-        .filter(Files::isRegularFile)
-        .mapToLong(p -> {
+       Path path = Path.of("d:\\Anxo");
+       try (var paths = Files.walk(path)) {
+            long tamaño = Files.walk(path).filter(Files::isRegularFile).mapToLong(p -> {
             try {
                 return Files.size(p);
             } catch (IOException e) {
                 return 0;
             }
-        })
-        .sum();
+        }).sum();
+        System.out.println("Tamaño total con path: " + tamaño);
        } catch (Exception e) {
         // TODO: handle exception
-       }*/
+       }
+
+       
     }
 }
