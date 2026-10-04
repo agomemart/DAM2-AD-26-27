@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tienda nombre="TechMarín">
+    <pedido id="101" pagado="true">
+        <fecha>2026-09-28</fecha>
+        <cliente>
+            <nombre>Lucía Pérez</nombre>
+            <email>lucia@example.com</email>
+        </cliente>
+        <lineas>
+            <linea unidades="1">
+                <producto>Teclado mecánico</producto>
+                <precio>59.9</precio>
+            </linea>
+            <linea unidades="2">
+                <producto>Ratón</producto>
+                <precio>19.5</precio>
+            </linea>
+        </lineas>
+        <total>98.9</total>
+    </pedido>
+    <pedido id="102" pagado="false">
+        <fecha>2026-09-30</fecha>
+        <cliente>
+            <nombre>Marcos Vidal</nombre>
+            <email>marcos@example.com</email>
+        </cliente>
+        <lineas>
+            <linea unidades="1">
+                <producto>Monitor 27"</producto>
+                <precio>189.0</precio>
+            </linea>
+            <linea unidades="2">
+                <producto>Cable HDMI &amp; adaptador</producto>
+                <precio>7.5</precio>
+            </linea>
+        </lineas>
+        <total>204.0</total>
+    </pedido>
+</tienda>

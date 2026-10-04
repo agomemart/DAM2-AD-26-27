@@ -1,0 +1,12 @@
+[
+  {
+    "id": 2,
+    "nombre": "Prueba",
+    "precio": 5.49
+  },
+  {
+    "id": 6,
+    "nombre": "Prueba2",
+    "precio": 6.45
+  }
+]

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<biblioteca nombre="Municipal">
+      
+    <libro isbn="978-1">
+            
+        <titulo>Don Quijote</titulo>
+            
+        <autor>Cervantes</autor>
+            
+        <precio>21.45</precio>
+            
+        <fechaPublicacion>1605-01-16</fechaPublicacion>
+            
+        <etiquetas>
+            <etiqueta>clásico</etiqueta>
+            <etiqueta>novela</etiqueta>
+        </etiquetas>
+          
+    </libro>
+      
+
+    <libro isbn="978-3">
+        <titulo>Libro1</titulo>
+        <autor>Autor1</autor>
+        <precio>12.4</precio>
+        <fechaPublicacion>2026-02-05</fechaPublicacion>
+        <etiquetas>
+            <etiqueta>novela</etiqueta>
+        </etiquetas>
+    </libro>
+</biblioteca>
