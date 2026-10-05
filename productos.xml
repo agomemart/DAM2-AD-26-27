@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<productos>
+    <producto id="2">
+        <nombre>Prueba</nombre>
+        <precio>5.49</precio>
+    </producto>
+    <producto id="6">
+        <nombre>Prueba2</nombre>
+        <precio>6.45</precio>
+    </producto>
+</productos>

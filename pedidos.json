@@ -1,0 +1,25 @@
+{
+  "tienda": "TechMarín",
+  "pedidos": [
+    {
+      "id": 101,
+      "fecha": "2026-09-28",
+      "cliente": { "nombre": "Lucía Pérez", "email": "lucia@example.com" },
+      "pagado": true,
+      "lineas": [
+        { "producto": "Teclado mecánico", "unidades": 1, "precio": 59.9 },
+        { "producto": "Ratón", "unidades": 2, "precio": 19.5 }
+      ]
+    },
+    {
+      "id": 102,
+      "fecha": "2026-09-30",
+      "cliente": { "nombre": "Marcos Vidal", "email": "marcos@example.com" },
+      "pagado": false,
+      "lineas": [
+        { "producto": "Monitor 27\"", "unidades": 1, "precio": 189.0 },
+        { "producto": "Cable HDMI & adaptador", "unidades": 2, "precio": 7.5 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "nombre": "Municipal",
+  "libros": [
+    {
+      "isbn": "978-1",
+      "titulo": "Don Quijote",
+      "autor": "Cervantes",
+      "fechaPublicacion": "1605-01-16",
+      "precio": 15.56,
+      "etiquetas": [
+        "clásico",
+        "novela"
+      ]
+    },
+    {
+      "isbn": "978-2",
+      "titulo": "Rayuela",
+      "autor": "Cortázar",
+      "fechaPublicacion": "1963-06-28",
+      "precio": 14.9,
+      "etiquetas": [
+        "novela"
+      ]
+    },
+    {
+      "isbn": "985-7",
+      "titulo": "Libro1",
+      "autor": "Autor1",
+      "fechaPublicacion": "2026-10-4",
+      "precio": 19.99,
+      "etiquetas": [
+        "novela"
+      ]
+    }
+  ]
+}

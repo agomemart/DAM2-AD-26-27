@@ -1,0 +1,6 @@
+1: Esto es una prueba
+2: para copmprobar
+3: que el fichero
+4: escribe la
+5: numeración
+6: aquí
