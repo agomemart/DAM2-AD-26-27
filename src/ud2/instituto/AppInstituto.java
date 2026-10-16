@@ -3,6 +3,9 @@ package ud2.instituto;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
 
 public class AppInstituto {
     public static void main(String[] args) {
@@ -23,6 +26,30 @@ public class AppInstituto {
             Alumnos.findAll();
             System.out.println("Filtrar alumnos por curso:");
             Alumnos.findByCurso("2DAM");
+
+            AlumnoDTO alumno = new AlumnoDTO(6, "Manuel", "López", LocalDate.of(2000, 1, 1), "COM1", 7.);
+            
+            if (Alumnos.insertar(alumno)) {
+                System.out.println("Insertado correctamente");
+            } else {
+                System.out.println("Error al insertr el alumno: " + alumno);
+            }
+
+            List<AlumnoDTO> alumnos = Alumnos.findAll();
+            alumnos.forEach(System.out::println);
+
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Id de usuario a borrar: ");
+            int id = sc.nextInt();
+            sc.close();
+            Alumnos.borrar(id);
+            
+            AlumnoDTO alumno2 = Alumnos.find(new AlumnoDTO(id));
+            if (alumno2 != null) {
+                System.out.println(alumno2);
+            } else {
+                System.out.println("Error al recuperar el alumno " + id);
+            }
             conn.close();
         } catch (SQLException e) {
             System.out.println("Error de sql: " + e.getMessage());
