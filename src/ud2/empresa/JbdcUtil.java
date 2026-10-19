@@ -1,12 +1,12 @@
-package ud2.instituto;
+package ud2.empresa;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionBD {
-    public static Connection conectar() {
-        String url = "jdbc:h2:mem:instituto;DB_CLOSE_DELAY=-1";
+public class JbdcUtil {
+    public static Connection getConnection() {
+        String url = "jdbc:h2:mem:empresa;DB_CLOSE_DELAY=-1";
         String user = "sa";
         String password = "";
 

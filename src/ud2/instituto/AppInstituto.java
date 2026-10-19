@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class AppInstituto {
     public static void main(String[] args) {
         
-        Connection conn = ConexionBD.conectar();
+        Connection conn = JbdcUtil.getConnection();
 
         try (Statement stmt = conn.createStatement()) {
             String sql = "CREATE TABLE alumnos(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_nacimiento DATE, curso VARCHAR(100), nota_media DECIMAL(4,2))";
@@ -22,29 +22,30 @@ public class AppInstituto {
             stmt.executeUpdate("INSERT INTO alumnos VALUES(4, 'Francisco', 'Martínez', '2006-08-06', '1ASIR', 6.5)");
             stmt.executeUpdate("INSERT INTO alumnos VALUES(5, 'Jorge', 'Rodríguez', '2003-12-09', '2ASIR', 7.8)");
 
+            AlumnoDAO alumnoDAO = new AlumnoDAOImpl();
+            
             System.out.println("Mostrando alumnos:");
-            Alumnos.findAll();
+            alumnoDAO.listarTodos();
             System.out.println("Filtrar alumnos por curso:");
-            Alumnos.findByCurso("2DAM");
 
             AlumnoDTO alumno = new AlumnoDTO(6, "Manuel", "López", LocalDate.of(2000, 1, 1), "COM1", 7.);
             
-            if (Alumnos.insertar(alumno)) {
+            if (alumnoDAO.insertar(alumno)) {
                 System.out.println("Insertado correctamente");
             } else {
                 System.out.println("Error al insertr el alumno: " + alumno);
             }
 
-            List<AlumnoDTO> alumnos = Alumnos.findAll();
+            List<AlumnoDTO> alumnos = alumnoDAO.listarTodos();
             alumnos.forEach(System.out::println);
 
             Scanner sc = new Scanner(System.in);
             System.out.print("Id de usuario a borrar: ");
             int id = sc.nextInt();
             sc.close();
-            Alumnos.borrar(id);
+            alumnoDAO.eliminar(id);
             
-            AlumnoDTO alumno2 = Alumnos.find(new AlumnoDTO(id));
+            AlumnoDTO alumno2 = alumnoDAO.buscarPorId(id);
             if (alumno2 != null) {
                 System.out.println(alumno2);
             } else {

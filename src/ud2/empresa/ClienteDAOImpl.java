@@ -9,14 +9,15 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
-public class Clientes {
-    public static List<ClienteDTO> findAll() {
+public class ClienteDAOImpl implements ClienteDAO {
+    public List<ClienteDTO> listarTodos() {
         List<ClienteDTO> clientes = null;
-        Connection conn = ConexionBD.conectar();
+        
 
-        try (Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM clientes");
-
+        try (Connection conn = JbdcUtil.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM clientes")) {
+            
             clientes = new ArrayList<>();
             while (rs.next()) {
                 clientes.add(new ClienteDTO(
@@ -26,9 +27,7 @@ public class Clientes {
                         rs.getDate("fecha_alta").toLocalDate(),
                         rs.getBoolean("vip")));
             }
-            rs.close();
-            stmt.close();
-            conn.close();
+
             return clientes;
 
         } catch (SQLException e) {
@@ -37,14 +36,15 @@ public class Clientes {
         }
     }
 
-    public static boolean insertar(ClienteDTO cliente) {
-        Connection con = ConexionBD.conectar();
+    public boolean insertar(ClienteDTO cliente) {
+        
         String sql = """
                 INSERT INTO clientes (id, nombre, apellidos, fecha_alta, vip) 
                 VALUES (?, ?, ?, ?, ?)
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+            
             sentenciaSql.setInt(1, cliente.getId());
             sentenciaSql.setString(2, cliente.getNombre());
             sentenciaSql.setString(3, cliente.getApellidos());
@@ -57,14 +57,14 @@ public class Clientes {
         }
     }
 
-    public static boolean borrar(int id) {
-        Connection con = ConexionBD.conectar();
+    public boolean eliminar(int id) {
         String sql = """
                 DELETE FROM clientes
                 WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+            
             sentenciaSql.setInt(1, id);
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -73,14 +73,14 @@ public class Clientes {
         }
     }
 
-    public static boolean borrar(ClienteDTO cliente) {
-        Connection con = ConexionBD.conectar();
+    public boolean eliminar(ClienteDTO cliente) {
         String sql = """
                 DELETE FROM clientes
                 WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+            
             sentenciaSql.setInt(1, cliente.getId());
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -89,16 +89,17 @@ public class Clientes {
         }
     }
 
-    public static ClienteDTO find(ClienteDTO cliente) {
+    public ClienteDTO buscarPorId(int id) {
         ClienteDTO clienteRes = null;
-        Connection con = ConexionBD.conectar();
+        
         String sql = """
                 SELECT * FROM clientes
                 WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
-            sentenciaSql.setInt(1, cliente.getId());
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+            
+            sentenciaSql.setInt(1, id);
             ResultSet rs = sentenciaSql.executeQuery();
             if (rs.next()) {
                 clienteRes = new ClienteDTO(
@@ -109,16 +110,14 @@ public class Clientes {
                         rs.getBoolean("vip"));
             }
             rs.close();
-            sentenciaSql.close();
-            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return clienteRes;
     }
 
-    public static boolean actualizar(ClienteDTO cliente) {
-        Connection con = ConexionBD.conectar();
+    public boolean actualizar(ClienteDTO cliente) {
+        
         String sql = """
                 UPDATE clientes
                 SET nombre = ?,
@@ -127,8 +126,8 @@ public class Clientes {
                     vip = ?
                     WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
 
             sentenciaSql.setString(1, cliente.getNombre());
             sentenciaSql.setString(2, cliente.getApellidos());

@@ -8,7 +8,7 @@ public class ClienteDTO {
     String apellidos;
     LocalDate fechaAlta;
     boolean vip;
-    
+
     public ClienteDTO(int id, String nombre, String apellidos, LocalDate fechaAlta, boolean vip) {
         this.id = id;
         this.nombre = nombre;
@@ -19,6 +19,16 @@ public class ClienteDTO {
 
     public ClienteDTO(int id) {
         this.id = id;
+    }
+
+    public ClienteDTO(String nombre, String apellidos, LocalDate fechaAlta, boolean vip) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fechaAlta = fechaAlta;
+        this.vip = vip;
+    }
+
+    public ClienteDTO() {
     }
 
     public int getId() {
@@ -67,5 +77,4 @@ public class ClienteDTO {
                 + ", vip=" + vip + "]";
     }
 
-    
 }

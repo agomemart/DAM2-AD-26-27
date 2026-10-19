@@ -9,13 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Alumnos {
-    public static List<AlumnoDTO> findAll() {
+public class AlumnoDAOImpl implements AlumnoDAO{
+    public List<AlumnoDTO> listarTodos() {
         List<AlumnoDTO> alumnos = null;
-        Connection conn = ConexionBD.conectar();
-
-        try (Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT * FROM alumnos");
+        
+        String sql = "SELECT * FROM alumnos";
+        try (Connection conn = JbdcUtil.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
 
             alumnos = new ArrayList<>();
             while (rs.next()) {
@@ -27,9 +28,6 @@ public class Alumnos {
                         rs.getString("curso"),
                         rs.getDouble("nota_media")));
             }
-            rs.close();
-            stmt.close();
-            conn.close();
             return alumnos;
 
         } catch (SQLException e) {
@@ -38,54 +36,14 @@ public class Alumnos {
         }
     }
 
-    public static void findAllold() {
-        Connection conn = ConexionBD.conectar();
-
-        try (Statement stmt = conn.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery("SELECT * FROM alumnos");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("nombre") + " " + rs.getString("apellidos") + " - "
-                        + rs.getString("curso") + " - " + rs.getDouble("nota_media"));
-            }
-            rs.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            System.out.println("Error de sql: " + e.getMessage());
-        }
-    }
-
-    public static void findByCurso(String curso) {
-        Connection conn = ConexionBD.conectar();
-
-        try (Statement stmt = conn.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery("SELECT * FROM alumnos");
-
-            while (rs.next()) {
-                if (rs.getString("curso").equals(curso)) {
-                    System.out.println(rs.getString("nombre") + " " + rs.getString("apellidos") + " - "
-                            + rs.getString("curso") + " - " + rs.getDouble("nota_media"));
-                }
-            }
-            rs.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            System.out.println("Error de sql: " + e.getMessage());
-        }
-    }
-
-    public static boolean insertar(AlumnoDTO alumno) {
-        Connection con = ConexionBD.conectar();
+    public boolean insertar(AlumnoDTO alumno) {
         String sql = """
                 INSERT INTO alumnos
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+            
             sentenciaSql.setInt(1, alumno.getId());
             sentenciaSql.setString(2, alumno.getNombre());
             sentenciaSql.setString(3, alumno.getApellidos());
@@ -99,14 +57,13 @@ public class Alumnos {
         }
     }
 
-    public static boolean borrar(int id) {
-        Connection con = ConexionBD.conectar();
+    public boolean eliminar(int id) {
         String sql = """
                 DELETE FROM alumnos
                 WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
             sentenciaSql.setInt(1, id);
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -115,14 +72,14 @@ public class Alumnos {
         }
     }
 
-    public static boolean borrar(AlumnoDTO alumno) {
-        Connection con = ConexionBD.conectar();
+    public boolean eliminar(AlumnoDTO alumno) {
+        
         String sql = """
                 DELETE FROM alumnos
                 WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
             sentenciaSql.setInt(1, alumno.getId());
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -131,16 +88,17 @@ public class Alumnos {
         }
     }
 
-    public static AlumnoDTO find(AlumnoDTO alumno) {
+    public AlumnoDTO buscarPorId(int id) {
         AlumnoDTO alumnoRes = null;
-        Connection con = ConexionBD.conectar();
+        
         String sql = """
                 SELECT FROM alumnos
                 WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
-            sentenciaSql.setInt(1, alumno.getId());
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+
+            sentenciaSql.setInt(1, id);
             ResultSet rs = sentenciaSql.executeQuery();
             if (rs.next()) {
                 alumnoRes = new AlumnoDTO(
@@ -152,16 +110,14 @@ public class Alumnos {
                         rs.getDouble("nota_media"));
             }
             rs.close();
-            sentenciaSql.close();
-            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return alumnoRes;
     }
 
-    public static boolean actualizar(AlumnoDTO alumno) {
-        Connection con = ConexionBD.conectar();
+    public boolean actualizar(AlumnoDTO alumno) {
+        
         String sql = """
                 UPDATE alumnos
                 SET nombre = ?,
@@ -171,9 +127,9 @@ public class Alumnos {
                     nota_media = ?
                     WHERE ID = ?
                 """;
-        try {
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
-
+        try (Connection con = JbdcUtil.getConnection();
+            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+            
             sentenciaSql.setString(1, alumno.getNombre());
             sentenciaSql.setString(2, alumno.getApellidos());
             sentenciaSql.setDate(3, Date.valueOf(alumno.getFechaNacimiento()));

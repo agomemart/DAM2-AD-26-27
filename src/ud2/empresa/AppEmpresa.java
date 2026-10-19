@@ -4,56 +4,116 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class AppEmpresa {
 
     public static void main(String[] args) {
-        try (Connection conn = ConexionBD.conectar();
-                Statement stmt = conn.createStatement()) {
-            stmt.execute("DROP TABLE IF EXISTS clientes");
-            stmt.execute(
-                    "CREATE TABLE clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
-        } catch (SQLException e) {
-            System.out.println("Error de sql: " + e.getMessage());
-            return;
-        }
+        Connection conn = JbdcUtil.getConnection();
+        ClienteDAO clienteDAO = new ClienteDAOImpl();
 
-        ClienteDTO cliente1 = new ClienteDTO(1, "Adrián", "Gómez", LocalDate.of(2025, 5, 25), true);
-        ClienteDTO cliente2 = new ClienteDTO(2, "Manuel", "López", LocalDate.of(2024, 4, 28), false);
-        ClienteDTO cliente3 = new ClienteDTO(3, "María", "Martínez", LocalDate.of(2020, 2, 14), false);
-        ClienteDTO cliente4 = new ClienteDTO(4, "Marcos", "González", LocalDate.of(2023, 10, 2), true);
-        ClienteDTO cliente5 = new ClienteDTO(5, "Laura", "Rey", LocalDate.of(2025, 1, 4), false);
-
-        System.out.println("Insertar:");
-        System.out.println("Insertar cliente 1: " + Clientes.insertar(cliente1));
-        System.out.println("Insertar cliente 2: " + Clientes.insertar(cliente2));
-        System.out.println("Insertar cliente 3: " + Clientes.insertar(cliente3));
-        System.out.println("Insertar cliente 4: " + Clientes.insertar(cliente4));
-        System.out.println("Insertar cliente 5: " + Clientes.insertar(cliente5));
-        System.out.println("Insertar cliente 1 otra vez (id repetido): " + Clientes.insertar(cliente1));
-
-        System.out.println("Imprimir todos los clientes:");
-        Clientes.findAll().forEach(System.out::println);
-
-        System.out.println("Imprimir un cliente en concreto:");
-        System.out.println("find(ClienteDTO id 3): " + Clientes.find(new ClienteDTO(3)));
-        System.out.println("find(id 99): " + Clientes.find(new ClienteDTO(99)));
-
-        System.out.println("Actualizar cliente:");
-        ClienteDTO modificado = new ClienteDTO(2, "Manuel", "López Pérez", LocalDate.of(2024, 5, 1), true);
-        System.out.println("Actualizar cliente 2: " + Clientes.actualizar(modificado));
-        System.out.println("Actualizar id 99: "
-                + Clientes.actualizar(new ClienteDTO(99, "Nadie", "Nadie", LocalDate.now(), false)));
-
-        System.out.println("Borrar por id:");
-        System.out.println("Borrar id 5: " + Clientes.borrar(5));
-        System.out.println("Borrar id 5 otra vez: " + Clientes.borrar(5));
-
-        System.out.println("Borrar por cliente:");
-        System.out.println("Borrar cliente 4: " + Clientes.borrar(cliente4));
-        System.out.println("Borrar cliente 4 otra vez: " + Clientes.borrar(cliente4));
-
-        System.out.println("Datos finales:");
-        Clientes.findAll().forEach(System.out::println);
+        Scanner sc = new Scanner(System.in);
+        do {
+            System.out.println("MENU ALUMNOS");
+            System.out.println("0. Crear Tabla/BD");
+            System.out.println("1. Insertar");
+            System.out.println("2. Listar");
+            System.out.println("3. Buscar por ID");
+            System.out.println("4. Actualizar");
+            System.out.println("5. Eliminar");
+            System.out.println("6. Salir");
+            System.out.print("Seleccione una opción:");
+            int opcion = sc.nextInt();
+            switch (opcion) {
+                case 0:
+                    try (Statement stmt = conn.createStatement()) {
+                        stmt.execute("DROP TABLE IF EXISTS clientes");
+                        stmt.execute(
+                                "CREATE TABLE clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
+                    } catch (SQLException e) {
+                        System.out.println("Error de sql: " + e.getMessage());
+                        return;
+                    }
+                    break;
+                case 1:
+                    System.out.print("Nombre: ");
+                    String nombre = sc.nextLine();
+                    sc.next();
+                    System.out.print("Apellidos: ");
+                    String apellidos = sc.nextLine();
+                    sc.next();
+                    System.out.print("Fecha de alta (dd/mm/yyyy): ");
+                    String fechaAlta = sc.nextLine();
+                    sc.next();
+                    System.out.print("Vip? (S/N)");
+                    String vip = sc.nextLine();
+                    sc.next();
+                    boolean esVip = false;
+                    if (vip.equalsIgnoreCase("s")) {
+                        esVip = true;
+                    } else if (vip.equalsIgnoreCase("n")) {
+                        esVip = false;
+                    }
+                    String[] partesFecha = fechaAlta.split("/");
+                    ClienteDTO c = new ClienteDTO(nombre, apellidos, LocalDate.of(Integer.valueOf(partesFecha[2]),
+                            Integer.valueOf(partesFecha[1]), Integer.valueOf(partesFecha[0])), esVip);
+                    clienteDAO.insertar(c);
+                    break;
+                case 2:
+                    clienteDAO.listarTodos();
+                    break;
+                case 3:
+                    System.out.print("Inserta el id del cliente a buscar: ");
+                    int id = sc.nextInt();
+                    if (clienteDAO.buscarPorId(id) == null) {
+                        System.out.println("Cliente no encontrado");
+                    }
+                    break;
+                case 4:
+                    System.out.print("Actualizar el cliente con id: ");
+                    int id2 = sc.nextInt();
+                    if (clienteDAO.buscarPorId(id2) != null) {
+                        System.out.print("Nombre: ");
+                        String nombreActualizado = sc.nextLine();
+                        System.out.print("Apellidos: ");
+                        String apellidosActualizado = sc.nextLine();
+                        System.out.print("Fecha de alta (dd/mm/yyyy): ");
+                        String fechaAltaActualizado = sc.nextLine();
+                        System.out.print("Vip? (S/N)");
+                        String vipActualizado = sc.nextLine();
+                        boolean esVipActualizado = false;
+                        if (vipActualizado.equalsIgnoreCase("s")) {
+                            esVip = true;
+                        } else if (vipActualizado.equalsIgnoreCase("n")) {
+                            esVip = false;
+                        }
+                        String[] partesFechaActualizado = fechaAltaActualizado.split("/");
+                        ClienteDTO cActualizado = new ClienteDTO(nombreActualizado, apellidosActualizado,
+                                LocalDate.of(Integer.valueOf(partesFechaActualizado[2]),
+                                        Integer.valueOf(partesFechaActualizado[1]),
+                                        Integer.valueOf(partesFechaActualizado[0])),
+                                esVipActualizado);
+                        clienteDAO.actualizar(cActualizado);
+                    } else {
+                        System.out.println("No existe un cliente con ese id");
+                    }
+                    break;
+                case 5:
+                    System.out.print("Inserta el id del cliente a borrar: ");
+                    int id3 = sc.nextInt();
+                    if (clienteDAO.eliminar(id3)) {
+                        System.out.println("Eliminado correctamente");
+                    } else {
+                        System.out.println("No se ha podido eliminar el cliente con id: " + id3);
+                    }
+                    break;
+                case 6:
+                    sc.close();
+                    System.out.println("Saliendo del programa...");
+                    return;
+                default:
+                    System.out.println("Opción no válida");
+            }
+        } while (true);
     }
 }
