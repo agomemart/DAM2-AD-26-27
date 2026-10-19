@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class AppEmpresa {
@@ -24,6 +25,7 @@ public class AppEmpresa {
             System.out.println("6. Salir");
             System.out.print("Seleccione una opción:");
             int opcion = sc.nextInt();
+            sc.nextLine();
             switch (opcion) {
                 case 0:
                     try (Statement stmt = conn.createStatement()) {
@@ -38,25 +40,17 @@ public class AppEmpresa {
                 case 1:
                     System.out.print("Nombre: ");
                     String nombre = sc.nextLine();
-                    sc.next();
                     System.out.print("Apellidos: ");
                     String apellidos = sc.nextLine();
-                    sc.next();
                     System.out.print("Fecha de alta (dd/mm/yyyy): ");
                     String fechaAlta = sc.nextLine();
-                    sc.next();
-                    System.out.print("Vip? (S/N)");
+                    System.out.print("Vip? (S/N): ");
                     String vip = sc.nextLine();
-                    sc.next();
-                    boolean esVip = false;
-                    if (vip.equalsIgnoreCase("s")) {
-                        esVip = true;
-                    } else if (vip.equalsIgnoreCase("n")) {
-                        esVip = false;
-                    }
-                    String[] partesFecha = fechaAlta.split("/");
-                    ClienteDTO c = new ClienteDTO(nombre, apellidos, LocalDate.of(Integer.valueOf(partesFecha[2]),
-                            Integer.valueOf(partesFecha[1]), Integer.valueOf(partesFecha[0])), esVip);
+                    boolean esVip = vip.equalsIgnoreCase("s");
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fecha = LocalDate.parse(fechaAlta.trim(), formato);
+
+                    ClienteDTO c = new ClienteDTO(nombre, apellidos, fecha, esVip);
                     clienteDAO.insertar(c);
                     break;
                 case 2:
