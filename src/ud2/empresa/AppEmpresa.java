@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class AppEmpresa {
 
     public static void main(String[] args) {
-        Connection conn = JbdcUtil.getConnection();
         ClienteDAO clienteDAO = new ClienteDAOImpl();
 
         Scanner sc = new Scanner(System.in);
@@ -28,14 +27,7 @@ public class AppEmpresa {
             sc.nextLine();
             switch (opcion) {
                 case 0:
-                    try (Statement stmt = conn.createStatement()) {
-                        stmt.execute("DROP TABLE IF EXISTS clientes");
-                        stmt.execute(
-                                "CREATE TABLE clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
-                    } catch (SQLException e) {
-                        System.out.println("Error de sql: " + e.getMessage());
-                        return;
-                    }
+                    crearTabla();
                     break;
                 case 1:
                     System.out.print("Nombre: ");
@@ -109,5 +101,16 @@ public class AppEmpresa {
                     System.out.println("Opción no válida");
             }
         } while (true);
+    }
+
+    private static void crearTabla() {
+        try (Connection conn = JbdcUtil.getConnection();
+            Statement stmt = conn.createStatement()) {
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
+        } catch (SQLException e) {
+            System.out.println("Error de sql: " + e.getMessage());
+            return;
+        }
     }
 }
