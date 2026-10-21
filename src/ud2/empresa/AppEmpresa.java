@@ -5,16 +5,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class AppEmpresa {
 
     public static void main(String[] args) {
         ClienteDAO clienteDAO = new ClienteDAOImpl();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         Scanner sc = new Scanner(System.in);
         do {
-            System.out.println("MENU ALUMNOS");
+            System.out.println("MENU CLIENTES");
             System.out.println("0. Crear Tabla/BD");
             System.out.println("1. Insertar");
             System.out.println("2. Listar");
@@ -22,7 +24,7 @@ public class AppEmpresa {
             System.out.println("4. Actualizar");
             System.out.println("5. Eliminar");
             System.out.println("6. Salir");
-            System.out.print("Seleccione una opción:");
+            System.out.print("Seleccione una opción: ");
             int opcion = sc.nextInt();
             sc.nextLine();
             switch (opcion) {
@@ -35,29 +37,43 @@ public class AppEmpresa {
                     System.out.print("Apellidos: ");
                     String apellidos = sc.nextLine();
                     System.out.print("Fecha de alta (dd/mm/yyyy): ");
-                    String fechaAlta = sc.nextLine();
+                    LocalDate fecha = LocalDate.parse(sc.nextLine().trim(), formato);
                     System.out.print("Vip? (S/N): ");
-                    String vip = sc.nextLine();
-                    boolean esVip = vip.equalsIgnoreCase("s");
-                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    LocalDate fecha = LocalDate.parse(fechaAlta.trim(), formato);
+                    String vip = sc.nextLine().trim();
+                    Boolean esVip = false;
+                    if (vip.equalsIgnoreCase("s")) {
+                        esVip = true;
+                    } else if (vip.equalsIgnoreCase("n")) {
+                        esVip = false;
+                    } else {
+                        System.out.println("Escribe S o N.");
+                    }
 
                     ClienteDTO c = new ClienteDTO(nombre, apellidos, fecha, esVip);
-                    clienteDAO.insertar(c);
+                    System.out.println(clienteDAO.insertar(c)
+                            ? "Insertado correctamente"
+                            : "No se ha podido insertar");
                     break;
                 case 2:
-                    clienteDAO.listarTodos();
+                    List<ClienteDTO> lista = clienteDAO.listarTodos();
+                    if (lista == null || lista.isEmpty()) {
+                        System.out.println("No hay clientes");
+                    } else {
+                        System.out.println("Lista de clientes:");
+                        lista.forEach(System.out::println);
+                    }
                     break;
                 case 3:
-                    System.out.print("Inserta el id del cliente a buscar: ");
+                    System.out.print("Id del cliente a buscar: ");
                     int id = sc.nextInt();
-                    if (clienteDAO.buscarPorId(id) == null) {
-                        System.out.println("Cliente no encontrado");
-                    }
+                    sc.nextLine();
+                    ClienteDTO cd = clienteDAO.buscarPorId(id);
+                    System.out.println(cd != null ? cd : "Cliente no encontrado");
                     break;
                 case 4:
                     System.out.print("Actualizar el cliente con id: ");
                     int id2 = sc.nextInt();
+                    sc.nextLine();
                     if (clienteDAO.buscarPorId(id2) != null) {
                         System.out.print("Nombre: ");
                         String nombreActualizado = sc.nextLine();
@@ -69,17 +85,16 @@ public class AppEmpresa {
                         String vipActualizado = sc.nextLine();
                         boolean esVipActualizado = false;
                         if (vipActualizado.equalsIgnoreCase("s")) {
-                            esVip = true;
+                            esVipActualizado = true;
                         } else if (vipActualizado.equalsIgnoreCase("n")) {
-                            esVip = false;
+                            esVipActualizado = false;
                         }
-                        String[] partesFechaActualizado = fechaAltaActualizado.split("/");
                         ClienteDTO cActualizado = new ClienteDTO(nombreActualizado, apellidosActualizado,
-                                LocalDate.of(Integer.valueOf(partesFechaActualizado[2]),
-                                        Integer.valueOf(partesFechaActualizado[1]),
-                                        Integer.valueOf(partesFechaActualizado[0])),
+                                LocalDate.parse(fechaAltaActualizado, formato),
                                 esVipActualizado);
-                        clienteDAO.actualizar(cActualizado);
+                        System.out.println(clienteDAO.actualizar(cActualizado)
+                                ? "Actualizado correctamente"
+                                : "No se ha podido actualizar");
                     } else {
                         System.out.println("No existe un cliente con ese id");
                     }
@@ -87,6 +102,7 @@ public class AppEmpresa {
                 case 5:
                     System.out.print("Inserta el id del cliente a borrar: ");
                     int id3 = sc.nextInt();
+                    sc.nextLine();
                     if (clienteDAO.eliminar(id3)) {
                         System.out.println("Eliminado correctamente");
                     } else {
@@ -105,7 +121,7 @@ public class AppEmpresa {
 
     private static void crearTabla() {
         try (Connection conn = JbdcUtil.getConnection();
-            Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
         } catch (SQLException e) {

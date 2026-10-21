@@ -73,8 +73,8 @@ public class ClienteDTO {
 
     @Override
     public String toString() {
-        return "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaAlta=" + fechaAlta
-                + ", vip=" + vip + "]";
+        return "ClienteDTO [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos
+                + ", fechaAlta=" + fechaAlta + ", vip=" + vip + "]";
     }
 
 }

@@ -12,12 +12,11 @@ import java.util.List;
 public class ClienteDAOImpl implements ClienteDAO {
     public List<ClienteDTO> listarTodos() {
         List<ClienteDTO> clientes = null;
-        
 
         try (Connection conn = JbdcUtil.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM clientes")) {
-            
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM clientes")) {
+
             clientes = new ArrayList<>();
             while (rs.next()) {
                 clientes.add(new ClienteDTO(
@@ -37,19 +36,18 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     public boolean insertar(ClienteDTO cliente) {
-        
+
         String sql = """
-                INSERT INTO clientes (id, nombre, apellidos, fecha_alta, vip) 
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO clientes (nombre, apellidos, fecha_alta, vip)
+                VALUES (?, ?, ?, ?)
                 """;
         try (Connection con = JbdcUtil.getConnection();
-            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
-            
-            sentenciaSql.setInt(1, cliente.getId());
-            sentenciaSql.setString(2, cliente.getNombre());
-            sentenciaSql.setString(3, cliente.getApellidos());
-            sentenciaSql.setDate(4, Date.valueOf(cliente.getFechaAlta()));
-            sentenciaSql.setBoolean(5, cliente.isVip());
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+
+            sentenciaSql.setString(1, cliente.getNombre());
+            sentenciaSql.setString(2, cliente.getApellidos());
+            sentenciaSql.setDate(3, Date.valueOf(cliente.getFechaAlta()));
+            sentenciaSql.setBoolean(4, cliente.isVip());
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error de sql en insertar: " + e.getMessage());
@@ -63,8 +61,8 @@ public class ClienteDAOImpl implements ClienteDAO {
                 WHERE ID = ?
                 """;
         try (Connection con = JbdcUtil.getConnection();
-            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
-            
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+
             sentenciaSql.setInt(1, id);
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -79,8 +77,8 @@ public class ClienteDAOImpl implements ClienteDAO {
                 WHERE ID = ?
                 """;
         try (Connection con = JbdcUtil.getConnection();
-            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
-            
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+
             sentenciaSql.setInt(1, cliente.getId());
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -91,14 +89,14 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     public ClienteDTO buscarPorId(int id) {
         ClienteDTO clienteRes = null;
-        
+
         String sql = """
                 SELECT * FROM clientes
                 WHERE ID = ?
                 """;
         try (Connection con = JbdcUtil.getConnection();
-            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
-            
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+
             sentenciaSql.setInt(1, id);
             ResultSet rs = sentenciaSql.executeQuery();
             if (rs.next()) {
@@ -117,7 +115,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     public boolean actualizar(ClienteDTO cliente) {
-        
+
         String sql = """
                 UPDATE clientes
                 SET nombre = ?,
@@ -127,7 +125,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                     WHERE ID = ?
                 """;
         try (Connection con = JbdcUtil.getConnection();
-            PreparedStatement sentenciaSql = con.prepareStatement(sql)){
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
 
             sentenciaSql.setString(1, cliente.getNombre());
             sentenciaSql.setString(2, cliente.getApellidos());
