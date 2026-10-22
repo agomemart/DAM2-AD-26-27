@@ -1,9 +1,11 @@
-package ud2.empresa;
+package ud2.clientes;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * @author Adrián Gómez
+ */
 public class JbdcUtil {
     public static Connection getConnection() {
         String url = "jdbc:h2:./BD/empresa";

@@ -1,7 +1,9 @@
-package ud2.empresa;
+package ud2.clientes;
 
 import java.time.LocalDate;
-
+/**
+ * @author Adrián Gómez
+ */
 public class ClienteDTO {
     int id;
     String nombre;

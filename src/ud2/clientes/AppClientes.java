@@ -1,4 +1,4 @@
-package ud2.empresa;
+package ud2.clientes;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -7,8 +7,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-
-public class AppEmpresa {
+/**
+ * @author Adrián Gómez
+ */
+public class AppClientes {
 
     public static void main(String[] args) {
         ClienteDAO clienteDAO = new ClienteDAOImpl();

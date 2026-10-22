@@ -1,4 +1,4 @@
-package ud2.empresa;
+package ud2.clientes;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
-
+/**
+ * @author Adrián Gómez
+ */
 public class ClienteDAOImpl implements ClienteDAO {
     public List<ClienteDTO> listarTodos() {
         List<ClienteDTO> clientes = null;
@@ -136,6 +138,39 @@ public class ClienteDAOImpl implements ClienteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void insertarClientes(List<ClienteDTO> clientes) {
+        try (Connection con = JbdcUtil.getConnection()) {
+            try {
+                con.setAutoCommit(false);
+
+                String sql = """
+                        INSERT INTO clientes (nombre, apellidos, fecha_alta, vip)
+                        VALUES (?, ?, ?, ?)
+                        """;
+                PreparedStatement sentenciaSql = con.prepareStatement(sql);
+
+                for (ClienteDTO c : clientes) {
+                    sentenciaSql.setString(1, c.getNombre());
+                    sentenciaSql.setString(2, c.getApellidos());
+                    sentenciaSql.setDate(3, Date.valueOf(c.getFechaAlta()));
+                    sentenciaSql.setBoolean(4, c.isVip());
+                    sentenciaSql.setInt(5, c.getId());
+                    sentenciaSql.executeUpdate();
+                }
+
+                con.commit();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+            } finally {
+                con.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
