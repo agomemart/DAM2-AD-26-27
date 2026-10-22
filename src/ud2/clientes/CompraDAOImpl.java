@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompraDAOImpl implements CompraDAO{
+public class CompraDAOImpl implements CompraDAO {
     public List<CompraDTO> listarTodos() {
         List<CompraDTO> compras = null;
 
@@ -135,28 +135,19 @@ public class CompraDAOImpl implements CompraDAO{
     }
 
     public void insertarCompras(List<CompraDTO> compras) {
+        String sql = "INSERT INTO compras (idCliente, importe, fecha) VALUES (?, ?, ?)";
         try (Connection con = JbdcUtil.getConnection()) {
-            try {
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
                 con.setAutoCommit(false);
-
-                String sql = """
-                        INSERT INTO compras (idCliente, importe, fecha)
-                        VALUES (?, ?, ?, ?)
-                        """;
-                PreparedStatement sentenciaSql = con.prepareStatement(sql);
-
                 for (CompraDTO c : compras) {
-                    sentenciaSql.setInt(1, c.getIdCliente());
-                    sentenciaSql.setDouble(2, c.getImporte());
-                    sentenciaSql.setDate(3, Date.valueOf(c.getFecha()));
-                    sentenciaSql.setInt(5, c.getId());
-                    sentenciaSql.executeUpdate();
+                    ps.setInt(1, c.getIdCliente());
+                    ps.setDouble(2, c.getImporte());
+                    ps.setDate(3, Date.valueOf(c.getFecha()));
+                    ps.executeUpdate();
                 }
-
                 con.commit();
-
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Error de sql, se deshace todo: " + e.getMessage());
                 con.rollback();
             } finally {
                 con.setAutoCommit(true);
@@ -164,5 +155,26 @@ public class CompraDAOImpl implements CompraDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<CompraDTO> listarPorCliente(int idCliente) {
+        List<CompraDTO> compras = new ArrayList<>();
+        String sql = "SELECT * FROM compras WHERE idCliente = ?";
+        try (Connection con = JbdcUtil.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idCliente);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    compras.add(new CompraDTO(
+                            rs.getInt("id"),
+                            rs.getInt("idCliente"),
+                            rs.getDouble("importe"),
+                            rs.getDate("fecha").toLocalDate()));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error de sql en listarPorCliente: " + e.getMessage());
+        }
+        return compras;
     }
 }

@@ -15,5 +15,7 @@ public interface CompraDAO {
 
     public boolean actualizar(CompraDTO cliente);
 
-    public void insertarClientes(List<CompraDTO> clientes);
+    public void insertarCompras(List<CompraDTO> clientes);
+
+    public List<CompraDTO> listarPorCliente(int idCliente);
 }

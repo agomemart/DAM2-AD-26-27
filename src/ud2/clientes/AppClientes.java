@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
+
 /**
  * @author Adrián Gómez
  */
@@ -126,6 +127,18 @@ public class AppClientes {
                 Statement stmt = conn.createStatement()) {
             stmt.execute(
                     "CREATE TABLE IF NOT EXISTS clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
+
+            stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS compras(
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        idCliente INT NOT NULL,
+                        importe DECIMAL(10,2) NOT NULL,
+                        fecha DATE NOT NULL,
+                        CONSTRAINT fk_compras_cliente
+                            FOREIGN KEY (idCliente) REFERENCES clientes(id)
+                            ON DELETE CASCADE
+                    )
+                    """);
         } catch (SQLException e) {
             System.out.println("Error de sql: " + e.getMessage());
             return;
