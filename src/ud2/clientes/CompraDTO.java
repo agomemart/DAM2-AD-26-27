@@ -15,6 +15,12 @@ public class CompraDTO {
         this.fecha = fecha;
     }
 
+    public CompraDTO(int idCliente, double importe, LocalDate fecha) {
+        this.idCliente = idCliente;
+        this.importe = importe;
+        this.fecha = fecha;
+    }
+
     public CompraDTO(int id, int idCliente) {
         this.id = id;
         this.idCliente = idCliente;
