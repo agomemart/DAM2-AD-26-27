@@ -33,6 +33,7 @@ public class AppCompras {
                 case 1:
                     System.out.print("Importe: ");
                     double importe = sc.nextDouble();
+                    sc.nextLine();
                     System.out.print("Fecha: ");
                     LocalDate fecha = LocalDate.parse(sc.nextLine().trim(), formato);
                     System.out.print("Id cliente: ");
@@ -66,6 +67,7 @@ public class AppCompras {
                     if (compraDAO.buscarPorId(id2) != null) {
                         System.out.print("Importe: ");
                     double importeActualizado = sc.nextDouble();
+                    sc.nextLine();
                     System.out.print("Fecha: ");
                     LocalDate fechaActualizada = LocalDate.parse(sc.nextLine().trim(), formato);
                     System.out.print("Id cliente: ");

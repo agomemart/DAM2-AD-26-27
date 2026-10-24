@@ -15,7 +15,7 @@ public class CompraDAOImpl implements CompraDAO {
 
         try (Connection conn = JbdcUtil.getConnection();
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM clientes")) {
+                ResultSet rs = stmt.executeQuery("SELECT * FROM compras")) {
 
             compras = new ArrayList<>();
             while (rs.next()) {
@@ -23,7 +23,7 @@ public class CompraDAOImpl implements CompraDAO {
                         rs.getInt("id"),
                         rs.getInt("idCliente"),
                         rs.getDouble("importe"),
-                        rs.getDate("fecha_alta").toLocalDate()));
+                        rs.getDate("fecha").toLocalDate()));
             }
 
             return compras;
@@ -89,7 +89,7 @@ public class CompraDAOImpl implements CompraDAO {
         CompraDTO compraRes = null;
 
         String sql = """
-                SELECT * FROM clientes
+                SELECT * FROM compras
                 WHERE ID = ?
                 """;
         try (Connection con = JbdcUtil.getConnection();
