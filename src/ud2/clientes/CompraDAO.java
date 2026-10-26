@@ -20,4 +20,6 @@ public interface CompraDAO {
     public List<CompraDTO> listarPorCliente(int idCliente);
 
     public CompraClienteDTO buscarClientePorCompra(int idCompra);
+    
+    public List<CompraClienteDTO> listarComprasPorCliente(int idCliente);
 }

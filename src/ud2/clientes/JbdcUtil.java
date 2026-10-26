@@ -8,7 +8,7 @@ import java.sql.SQLException;
  */
 public class JbdcUtil {
     public static Connection getConnection() {
-        String url = "jdbc:SQLite:./BD/empresa";
+        String url = "jdbc:h2:./BD/empresa";
         String user = "sa";
         String password = "";
 

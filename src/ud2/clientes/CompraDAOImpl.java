@@ -178,10 +178,57 @@ public class CompraDAOImpl implements CompraDAO {
         return compras;
     }
 
-    @Override
     public CompraClienteDTO buscarClientePorCompra(int idCompra) {
-        CompraDTO c = buscarPorId(idCompra);
-        
-        return new CompraClienteDTO(idCompra, c.importe, c.idCliente, "");
+        String sql = """
+                SELECT p.id AS compra_id, p.importe, c.id AS cliente_id, c.nombre
+                FROM compras p
+                JOIN clientes c ON c.id = p.idCliente
+                WHERE p.id = ?
+                """;
+        try (Connection con = JbdcUtil.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idCompra);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new CompraClienteDTO(
+                            rs.getInt("compra_id"),
+                            rs.getDouble("importe"),
+                            rs.getInt("cliente_id"),
+                            rs.getString("nombre"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error de sql en buscarClientePorCompra: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public List<CompraClienteDTO> listarComprasPorCliente(int idCliente) {
+        List<CompraClienteDTO> resultado = new ArrayList<>();
+        String sql = """
+                SELECT p.id AS compra_id, p.importe, c.id AS cliente_id, c.nombre
+                FROM compras p
+                JOIN clientes c ON c.id = p.idCliente
+                WHERE c.id = ?
+                ORDER BY p.id
+                """;
+        try (Connection con = JbdcUtil.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idCliente);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    resultado.add(new CompraClienteDTO(
+                            rs.getInt("compra_id"),
+                            rs.getDouble("importe"),
+                            rs.getInt("cliente_id"),
+                            rs.getString("nombre")));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error de sql en listarComprasPorCliente: " + e.getMessage());
+        }
+        return resultado;
     }
 }

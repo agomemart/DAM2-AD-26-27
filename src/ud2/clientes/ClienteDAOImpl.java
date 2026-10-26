@@ -173,27 +173,4 @@ public class ClienteDAOImpl implements ClienteDAO {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public List<CompraDTO> buscarPorClientes(int idCliente) {
-        List<CompraDTO> compras = new ArrayList<>();
-        String sql = "SELECT * FROM compras WHERE idCliente = ?";
-
-        try (Connection con = JbdcUtil.getConnection()){
-            PreparedStatement sentenciaSql = con.prepareStatement(sql);
-            sentenciaSql.setInt(1, idCliente);
-            ResultSet rs = sentenciaSql.executeQuery();
-            while (rs.next()) {
-                compras.add(new CompraDTO(
-                        rs.getInt("id"),
-                        rs.getInt("idCliente"),
-                        rs.getDouble("importe"),
-                        rs.getDate( "fecha").toLocalDate()));
-            }
-            return compras;
-        } catch (SQLException e) {
-            return null;
-        }
-        
-    }
 }
