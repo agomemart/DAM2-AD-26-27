@@ -1,6 +1,7 @@
 package ud2.clientes;
 
 import java.util.List;
+
 /**
  * @author Adrián Gómez
  */
@@ -18,4 +19,6 @@ public interface ClienteDAO {
     public boolean actualizar(ClienteDTO cliente);
 
     public void insertarClientes(List<ClienteDTO> clientes);
+
+    public List<CompraDTO> buscarPorClientes(int idCliente);
 }

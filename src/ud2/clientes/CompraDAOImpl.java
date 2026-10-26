@@ -29,7 +29,7 @@ public class CompraDAOImpl implements CompraDAO {
             return compras;
 
         } catch (SQLException e) {
-            System.out.println("Error de sql: " + e.getMessage());
+            System.out.println("Error de sql al listar las compras: " + e.getMessage());
             return null;
         }
     }
@@ -64,7 +64,7 @@ public class CompraDAOImpl implements CompraDAO {
             sentenciaSql.setInt(1, id);
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error de sql al eliminar: " + e.getMessage());
             return false;
         }
     }
@@ -80,7 +80,7 @@ public class CompraDAOImpl implements CompraDAO {
             sentenciaSql.setInt(1, compra.getId());
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error de sql al eliminar: " + e.getMessage());
             return false;
         }
     }
@@ -176,5 +176,12 @@ public class CompraDAOImpl implements CompraDAO {
             System.out.println("Error de sql en listarPorCliente: " + e.getMessage());
         }
         return compras;
+    }
+
+    @Override
+    public CompraClienteDTO buscarClientePorCompra(int idCompra) {
+        CompraDTO c = buscarPorId(idCompra);
+        
+        return new CompraClienteDTO(idCompra, c.importe, c.idCliente, "");
     }
 }
