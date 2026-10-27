@@ -48,7 +48,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
             sentenciaSql.setString(1, cliente.getNombre());
             sentenciaSql.setString(2, cliente.getApellidos());
-            sentenciaSql.setDate(3, Date.valueOf(cliente.getFechaAlta()));
+            sentenciaSql.setString(3, cliente.getFechaAlta().toString());
             sentenciaSql.setBoolean(4, cliente.isVip());
             return sentenciaSql.executeUpdate() > 0;
         } catch (SQLException e) {

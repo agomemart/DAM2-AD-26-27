@@ -41,6 +41,7 @@ public class AppClientes {
                     String apellidos = sc.nextLine();
                     System.out.print("Fecha de alta (dd/mm/yyyy): ");
                     LocalDate fecha = LocalDate.parse(sc.nextLine().trim(), formato);
+                    //LocalDate fecha = LocalDate.parse(resultado.getString("fecha_alta"));
                     System.out.print("Vip? (S/N): ");
                     String vip = sc.nextLine().trim();
                     Boolean esVip = false;
@@ -126,7 +127,7 @@ public class AppClientes {
         try (Connection conn = JbdcUtil.getConnection();
                 Statement stmt = conn.createStatement()) {
             stmt.execute(
-                    "CREATE TABLE IF NOT EXISTS clientes(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
+                    "CREATE TABLE IF NOT EXISTS clientes(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(50), apellidos VARCHAR(100), fecha_alta DATE, vip BOOLEAN)");
         } catch (SQLException e) {
             System.out.println("Error de sql: " + e.getMessage());
             return;

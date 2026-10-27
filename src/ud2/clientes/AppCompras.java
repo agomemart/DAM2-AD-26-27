@@ -106,7 +106,7 @@ public class AppCompras {
                 Statement stmt = conn.createStatement()) {
             stmt.execute("""
                     CREATE TABLE IF NOT EXISTS compras(
-                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
                         idCliente INT NOT NULL,
                         importe DECIMAL(10,2) NOT NULL,
                         fecha DATE NOT NULL,
