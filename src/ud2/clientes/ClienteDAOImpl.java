@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 /**
  * @author Adrián Gómez
@@ -25,7 +25,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                         rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("apellidos"),
-                        rs.getDate("fecha_alta").toLocalDate(),
+                        LocalDate.parse(rs.getString("fecha_alta")),
                         rs.getBoolean("vip")));
             }
 
@@ -106,7 +106,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                         rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("apellidos"),
-                        rs.getDate("fecha_alta").toLocalDate(),
+                        LocalDate.parse(rs.getString("fecha_alta")),
                         rs.getBoolean("vip"));
             }
             rs.close();
@@ -131,7 +131,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
             sentenciaSql.setString(1, cliente.getNombre());
             sentenciaSql.setString(2, cliente.getApellidos());
-            sentenciaSql.setDate(3, Date.valueOf(cliente.getFechaAlta()));
+            sentenciaSql.setString(3, cliente.getFechaAlta().toString());
             sentenciaSql.setBoolean(4, cliente.isVip());
             sentenciaSql.setInt(5, cliente.getId());
             return sentenciaSql.executeUpdate() > 0;
@@ -155,7 +155,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                 for (ClienteDTO c : clientes) {
                     sentenciaSql.setString(1, c.getNombre());
                     sentenciaSql.setString(2, c.getApellidos());
-                    sentenciaSql.setDate(3, Date.valueOf(c.getFechaAlta()));
+                    sentenciaSql.setString(3, c.getFechaAlta().toString());
                     sentenciaSql.setBoolean(4, c.isVip());
                     sentenciaSql.setInt(5, c.getId());
                     sentenciaSql.executeUpdate();

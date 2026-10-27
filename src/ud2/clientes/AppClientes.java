@@ -41,7 +41,6 @@ public class AppClientes {
                     String apellidos = sc.nextLine();
                     System.out.print("Fecha de alta (dd/mm/yyyy): ");
                     LocalDate fecha = LocalDate.parse(sc.nextLine().trim(), formato);
-                    //LocalDate fecha = LocalDate.parse(resultado.getString("fecha_alta"));
                     System.out.print("Vip? (S/N): ");
                     String vip = sc.nextLine().trim();
                     Boolean esVip = false;

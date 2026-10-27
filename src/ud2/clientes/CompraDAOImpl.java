@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CompraDAOImpl implements CompraDAO {
                         rs.getInt("id"),
                         rs.getInt("idCliente"),
                         rs.getDouble("importe"),
-                        rs.getDate("fecha").toLocalDate()));
+                        LocalDate.parse(rs.getString("fecha"))));
             }
 
             return compras;
@@ -102,7 +103,7 @@ public class CompraDAOImpl implements CompraDAO {
                         rs.getInt("id"),
                         rs.getInt("idCliente"),
                         rs.getDouble("importe"),
-                        rs.getDate("fecha").toLocalDate());
+                        LocalDate.parse(rs.getString("fecha")));
             }
             rs.close();
         } catch (SQLException e) {
@@ -142,7 +143,7 @@ public class CompraDAOImpl implements CompraDAO {
                 for (CompraDTO c : compras) {
                     ps.setInt(1, c.getIdCliente());
                     ps.setDouble(2, c.getImporte());
-                    ps.setDate(3, Date.valueOf(c.getFecha()));
+                    ps.setString(3, c.getFecha().toString());
                     ps.executeUpdate();
                 }
                 con.commit();
