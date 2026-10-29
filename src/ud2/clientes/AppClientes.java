@@ -26,7 +26,8 @@ public class AppClientes {
             System.out.println("3. Buscar por ID");
             System.out.println("4. Actualizar");
             System.out.println("5. Eliminar");
-            System.out.println("6. Salir");
+            System.out.println("6. Filtrar por nombre");
+            System.out.println("7. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = sc.nextInt();
             sc.nextLine();
@@ -113,6 +114,13 @@ public class AppClientes {
                     }
                     break;
                 case 6:
+                    System.out.print("Nombre a filtrar: ");
+                    String nombreFiltrar = sc.nextLine();
+                    List<ClienteDTO> clientesPorNombre = clienteDAO.filtrarClientesPorNombre(nombreFiltrar);
+                    System.out.println("Clientes con nombre " + nombreFiltrar + ":");
+                    clientesPorNombre.forEach(System.out::println);
+                    break;
+                case 7:
                     sc.close();
                     System.out.println("Saliendo del programa...");
                     return;

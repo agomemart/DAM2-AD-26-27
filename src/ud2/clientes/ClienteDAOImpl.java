@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * @author Adrián Gómez
  */
@@ -172,5 +173,25 @@ public class ClienteDAOImpl implements ClienteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<ClienteDTO> filtrarClientesPorNombre(String nombre) {
+        List<ClienteDTO> clientes = new ArrayList<>();
+        String sql = "SELECT * FROM clientes WHERE nombre = ?";
+        try (Connection con = JbdcUtil.getConnection();
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+            sentenciaSql.setString(1, nombre);
+
+            ResultSet rs = sentenciaSql.executeQuery();
+            while (rs.next()) {
+                ClienteDTO c = new ClienteDTO(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellidos"),
+                    LocalDate.parse(rs.getString("fecha_alta")), rs.getBoolean("vip"));
+                clientes.add(c);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error al filtrar clientes por nombre: " + e.getMessage());
+        }
+        return clientes;
     }
 }

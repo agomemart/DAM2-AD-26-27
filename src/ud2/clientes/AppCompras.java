@@ -22,7 +22,9 @@ public class AppCompras {
             System.out.println("3. Buscar por ID");
             System.out.println("4. Actualizar");
             System.out.println("5. Eliminar");
-            System.out.println("6. Salir");
+            System.out.println("6. Buscar cliente por compra");
+            System.out.println("7. Listar compras por cliente");
+            System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = sc.nextInt();
             sc.nextLine();
@@ -92,6 +94,20 @@ public class AppCompras {
                     }
                     break;
                 case 6:
+                    System.out.print("Inserta el id de la compra: ");
+                    int idCompra = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println(compraDAO.buscarClientePorCompra(idCompra));
+                    break;
+                case 7:
+                    System.out.print("Inserta el id del cliente: ");
+                    int idCli = sc.nextInt();
+                    sc.nextLine();
+                    List<CompraClienteDTO> listaCompras = compraDAO.listarComprasPorCliente(idCli);
+                    System.out.println("Lista de compras por cliente con id " + idCli + ":");
+                        listaCompras.forEach(System.out::println);
+                    break;
+                case 8:
                     sc.close();
                     System.out.println("Saliendo del programa...");
                     return;
@@ -107,7 +123,7 @@ public class AppCompras {
             stmt.execute("""
                     CREATE TABLE IF NOT EXISTS compras(
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        idCliente INT NOT NULL,
+                        idCliente INTEGER NOT NULL,
                         importe DECIMAL(10,2) NOT NULL,
                         fecha DATE NOT NULL,
                         CONSTRAINT fk_compras_cliente

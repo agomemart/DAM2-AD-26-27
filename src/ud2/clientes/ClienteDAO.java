@@ -19,4 +19,6 @@ public interface ClienteDAO {
     public boolean actualizar(ClienteDTO cliente);
 
     public void insertarClientes(List<ClienteDTO> clientes);
+
+    public List<ClienteDTO> filtrarClientesPorNombre(String nombre);
 }
