@@ -7,4 +7,7 @@ public interface AlumnoDAO {
     public boolean insertar(AlumnoDTO alumno);
     public boolean eliminar(AlumnoDTO alumno);
     public boolean actualizar(AlumnoDTO alumno);
+    public AlumnoDTO buscarPorId(int id);
+
+    public AlumnoDTO sortear();
 }

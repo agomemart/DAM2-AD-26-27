@@ -83,4 +83,28 @@ public class RegistroEjerciciosDAOImpl implements RegstroEjerciciosDAO {
         return false;
     }
 
+    public RegistroEjerciciosDTO buscarPorId(int id) {
+        RegistroEjerciciosDTO registroDTO = null;
+        String sql = "SELECT (nombre, fecha, id_alumno, puntuacion) FROM registro_ejercicios WHERE id = ?";
+
+        try (Connection con = JbdcUtil.getConnection();
+                PreparedStatement sentenciaSql = con.prepareStatement(sql)) {
+            sentenciaSql.setInt(1, id);
+
+            ResultSet rs = sentenciaSql.executeQuery();
+            if (rs.next()) {
+                registroDTO = new RegistroEjerciciosDTO(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        LocalDate.parse(rs.getString("fecha")),
+                        rs.getInt("id_alumno"),
+                        rs.getInt("puntuacion"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("Error al buscar el alumno: " + e.getMessage());
+        }
+        return registroDTO;
+    }
+
 }

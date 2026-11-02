@@ -7,4 +7,5 @@ public interface RegstroEjerciciosDAO {
     public boolean insertar(RegistroEjerciciosDTO ejercicio);
     public boolean eliminar(RegistroEjerciciosDTO ejercicio);
     public boolean actualizar(RegistroEjerciciosDTO ejercicio);
+    public RegistroEjerciciosDTO buscarPorId(int id);
 }
